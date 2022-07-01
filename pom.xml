@@ -20,12 +20,14 @@
     <description>SFG Brewery Spring MVC Monolith</description>
     <name>SFG Brewery Spring MVC Monolith</name>
 
+<!--
     <licenses>
         <license>
             <name>GNU General Public License v3.0</name>
             <url>https://www.gnu.org/licenses/gpl.txt</url>
         </license>
     </licenses>
+-->
 
     <organization>
         <name>Spring Framework Guru</name>
