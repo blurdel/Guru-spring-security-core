@@ -30,13 +30,13 @@
 -->
 
     <organization>
-        <name>Spring Framework Guru</name>
+        <name>BlurdelSoft</name>
     </organization>
 
     <developers>
         <developer>
-            <name>John Thompson</name>
-            <organization>Spring Framework Guru</organization>
+            <name>Blurdel</name>
+            <organization>BlurdelSoft</organization>
         </developer>
     </developers>
 
@@ -44,11 +44,12 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>11</java.version>
-        <jaxb.version>2.3.0</jaxb.version>
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
+
         <org.mapstruct.version>1.4.2.Final</org.mapstruct.version>
         <org.projectlombok.version>1.18.18</org.projectlombok.version>
+        <jaxb.version>2.3.0</jaxb.version>
         <!--Surefire plugin argLine value to suppress UnresolvedMavenProperty -->
         <argLine>--illegal-access=permit</argLine>
         <!-- Web dependencies -->
