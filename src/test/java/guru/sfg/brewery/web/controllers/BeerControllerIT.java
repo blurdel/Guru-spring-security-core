@@ -3,6 +3,7 @@ package guru.sfg.brewery.web.controllers;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.test.context.support.WithMockUser;
 
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.anonymous;
@@ -13,8 +14,11 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 /**
  * Created by jt on 6/12/20.
  */
-@WebMvcTest
+// JPA tests are excluded in web mvc tests
+//@WebMvcTest // spring boot - Only brings up web context (minimal config test for web layer) uses IN-MEMORY h2 database
+@SpringBootTest
 public class BeerControllerIT extends BaseIT {
+
 
 
     @Test
