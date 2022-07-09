@@ -30,9 +30,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 
         // Add filter in the filter chain before UsernamePasswordAuthenticationFilter
-        http.addFilterBefore(restHeaderAuthFilter(authenticationManager()),
-                UsernamePasswordAuthenticationFilter.class)
-                .csrf().disable(); // Disable Cross-Site Request Forgery (CSRF)
+//        http.addFilterBefore(restHeaderAuthFilter(authenticationManager()),
+//                UsernamePasswordAuthenticationFilter.class)
+//                .csrf().disable(); // Disable Cross-Site Request Forgery (CSRF)
 
         http
                 .authorizeRequests(authorize -> {
