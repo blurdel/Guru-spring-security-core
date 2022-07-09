@@ -17,33 +17,31 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 public class BeerRestControllerIT extends BaseIT {
 
+    @Test
+    void deleteBeerHttpBasic() throws Exception{
+        mockMvc.perform(delete("/api/v1/beer/97df0c39-90c4-4ae0-b663-453e8e19c311")
+                .with(httpBasic("spring", "guru")))
+                .andExpect(status().is2xxSuccessful());
+    }
 
-//    @Test
-//    void deleteBeerBadCreds() throws Exception{
-//        mockMvc.perform(delete("/api/v1/beer/97df0c39-90c4-4ae0-b663-453e8e19c311")
-//                .header("Api-Key","spring").header("Api-Secret", "guruXXXX"))
-//                .andExpect(status().isUnauthorized());
-//    }
+    @Test
+    void deleteBeerHttpBasicUserRole() throws Exception{
+        mockMvc.perform(delete("/api/v1/beer/97df0c39-90c4-4ae0-b663-453e8e19c311")
+                .with(httpBasic("user", "password")))
+                .andExpect(status().isForbidden());
+    }
 
-//    @Test
-//    void deleteBeer() throws Exception {
-//        mockMvc.perform(delete("/api/v1/beer/97df0c39-90c4-4ae0-b663-453e8e19c311")
-//                .header("Api-Key", "spring").header("Api-Secret", "guru"))
-//                .andExpect(status().isOk());
-//    }
-
-//    @Test
-//    void deleteBeerHttpBasic() throws Exception{
-//        mockMvc.perform(delete("/api/v1/beer/97df0c39-90c4-4ae0-b663-453e8e19c311")
-//                .with(httpBasic("spring", "guru")))
-//                .andExpect(status().is2xxSuccessful());
-//    }
+    @Test
+    void deleteBeerHttpBasicCustomerRole() throws Exception{
+        mockMvc.perform(delete("/api/v1/beer/97df0c39-90c4-4ae0-b663-453e8e19c311")
+                .with(httpBasic("scott", "tiger")))
+                .andExpect(status().isForbidden());
+    }
 
     @Test
     void deleteBeerNoAuth() throws Exception{
         mockMvc.perform(delete("/api/v1/beer/97df0c39-90c4-4ae0-b663-453e8e19c311"))
-//                .andExpect(status().isUnauthorized());
-                .andExpect(status().isForbidden());
+                .andExpect(status().isUnauthorized());
     }
 
     @Test

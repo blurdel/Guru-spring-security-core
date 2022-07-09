@@ -15,24 +15,9 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-    // Create REST header authorization filter
-//    public RestHeaderAuthFilter restHeaderAuthFilter(AuthenticationManager authenticationManager){
-//        RestHeaderAuthFilter filter = new RestHeaderAuthFilter(new AntPathRequestMatcher("/api/**"));
-//        filter.setAuthenticationManager(authenticationManager);
-//        return filter;
-//    }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-//        http.authorizeRequests((requests) -> requests.anyRequest().authenticated());
-//        http.formLogin();
-//        http.httpBasic();
-
-
-        // Add filter in the filter chain before UsernamePasswordAuthenticationFilter
-//        http.addFilterBefore(restHeaderAuthFilter(authenticationManager()),
-//                UsernamePasswordAuthenticationFilter.class)
-//                .csrf().disable(); // Disable Cross-Site Request Forgery (CSRF)
 
         http
                 .authorizeRequests(authorize -> {
@@ -40,9 +25,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                             .antMatchers("/h2-console/**").permitAll() // TODO: DEV ONLY!!!
 
                             .antMatchers("/", "/webjars/**", "/login", "/resources/**").permitAll()
-                            .antMatchers("/beer/find", "/beers*").permitAll()
+                            .antMatchers("/beers/find", "/beers*").permitAll()
                             .antMatchers(HttpMethod.GET, "/api/v1/beer/**").permitAll()
 
+                            .mvcMatchers(HttpMethod.DELETE, "/api/v1/beer/**").hasRole("ADMIN")
                             .mvcMatchers(HttpMethod.GET, "/api/v1/beerUpc/{upc}").permitAll();
 
                 })
@@ -51,6 +37,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
         http.formLogin();
         http.httpBasic();
+        http.csrf().disable();
 
         // TODO: h2 console config = DEV ONLY!!!
         http.headers().frameOptions().sameOrigin();
