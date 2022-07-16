@@ -26,16 +26,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     authorize
                             .antMatchers("/h2-console/**").permitAll() // TODO: DEV ONLY!!!
 
-                            .antMatchers("/", "/webjars/**", "/login", "/resources/**").permitAll()
+                            .antMatchers("/", "/webjars/**", "/login", "/resources/**").permitAll();
 
-                            .mvcMatchers("/brewery/breweries")
-                                .hasAnyRole("ADMIN", "CUSTOMER")
+//                            .mvcMatchers("/brewery/breweries")
+//                                .hasAnyRole("ADMIN", "CUSTOMER")
 
-                            .mvcMatchers(HttpMethod.GET, "/brewery/api/v1/breweries")
-                                .hasAnyRole("ADMIN", "CUSTOMER")
+//                            .mvcMatchers(HttpMethod.GET, "/brewery/api/v1/breweries")
+//                                .hasAnyRole("ADMIN", "CUSTOMER")
 
-                            .mvcMatchers("/beers/find", "/beers/{beerId}")
-                                .hasAnyRole("ADMIN", "CUSTOMER", "USER");
+//                            .mvcMatchers("/beers/find", "/beers/{beerId}")
+//                                .hasAnyRole("ADMIN", "CUSTOMER", "USER");
 
                 })
                 .authorizeRequests()
