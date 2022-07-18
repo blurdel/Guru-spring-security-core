@@ -39,7 +39,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
         http.formLogin();
         http.httpBasic();
-        http.csrf().disable();
+        http.csrf().ignoringAntMatchers("/h2-console/**", "/api/**"); // CSRF was disabled for h2 mgmt console
 
         // TODO: h2 console config = DEV ONLY!!!
         http.headers().frameOptions().sameOrigin();
