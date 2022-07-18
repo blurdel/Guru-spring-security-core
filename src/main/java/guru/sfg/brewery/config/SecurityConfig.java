@@ -11,6 +11,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.data.repository.query.SecurityEvaluationContextExtension;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
 @EnableWebSecurity
@@ -37,7 +38,21 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .anyRequest().authenticated();
 
-        http.formLogin();
+        // Login/logout config, no longer default Spring Security
+        http.formLogin(loginConfig -> {
+            loginConfig
+                    .loginProcessingUrl("/login")
+                    .loginPage("/").permitAll()
+                    .successForwardUrl("/")
+                    .defaultSuccessUrl("/");
+        })
+        .logout(logoutConfig -> {
+            logoutConfig
+                    .logoutRequestMatcher(new AntPathRequestMatcher("/logout", "GET"))
+                    .logoutSuccessUrl("/")
+                    .permitAll();
+        });
+
         http.httpBasic();
         http.csrf().ignoringAntMatchers("/h2-console/**", "/api/**"); // CSRF was disabled for h2 mgmt console
 
