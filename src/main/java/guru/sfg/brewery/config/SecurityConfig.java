@@ -44,12 +44,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     .loginProcessingUrl("/login")
                     .loginPage("/").permitAll()
                     .successForwardUrl("/")
-                    .defaultSuccessUrl("/");
+                    .defaultSuccessUrl("/")
+                    .failureUrl("/?error");
         })
         .logout(logoutConfig -> {
             logoutConfig
                     .logoutRequestMatcher(new AntPathRequestMatcher("/logout", "GET"))
-                    .logoutSuccessUrl("/")
+                    .logoutSuccessUrl("/?logout")
                     .permitAll();
         });
 
