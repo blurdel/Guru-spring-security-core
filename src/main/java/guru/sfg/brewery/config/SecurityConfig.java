@@ -13,6 +13,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.data.repository.query.SecurityEvaluationContextExtension;
+import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 
@@ -23,6 +24,7 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final UserDetailsService userDetailsService;
+    private final PersistentTokenRepository persistentTokenRepository;
 
 
     // needed for use with Spring Data JPA SPeL
@@ -62,7 +64,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
         http.httpBasic();
         http.csrf().ignoringAntMatchers("/h2-console/**", "/api/**"); // CSRF was disabled for h2 mgmt console
-        http.rememberMe().key("sfg-key").userDetailsService(userDetailsService);
+
+        // Hash based token remember me
+//        http.rememberMe().key("sfg-key").userDetailsService(userDetailsService);
+
+        // Persistent token remember me
+        http.rememberMe().tokenRepository(persistentTokenRepository).userDetailsService(userDetailsService);
 
         // TODO: h2 console config = DEV ONLY!!!
         http.headers().frameOptions().sameOrigin();
