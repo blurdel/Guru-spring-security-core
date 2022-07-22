@@ -1,6 +1,7 @@
 package guru.sfg.brewery.security.listeners;
 
 import guru.sfg.brewery.domain.security.LoginFailure;
+import guru.sfg.brewery.domain.security.User;
 import guru.sfg.brewery.repositories.security.LoginFailureRepository;
 import guru.sfg.brewery.repositories.security.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -11,6 +12,10 @@ import org.springframework.security.authentication.event.AuthenticationFailureBa
 import org.springframework.security.authentication.event.AuthenticationFailureDisabledEvent;
 import org.springframework.security.web.authentication.WebAuthenticationDetails;
 import org.springframework.stereotype.Component;
+
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.util.List;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -30,7 +35,7 @@ public class AuthenticationFailureListener {
             LoginFailure.LoginFailureBuilder builder = LoginFailure.builder();
 
             if (token.getPrincipal() instanceof String) {
-                log.debug("########## Failed login username: " + token.getPrincipal());
+                log.debug("Failed login username: " + token.getPrincipal());
 
                 // to database
                 builder.username((String) token.getPrincipal());
@@ -39,19 +44,36 @@ public class AuthenticationFailureListener {
 
             if (token.getDetails() instanceof WebAuthenticationDetails) {
                 WebAuthenticationDetails details = (WebAuthenticationDetails) token.getDetails();
-                log.debug("########## Remote Address: " + details.getRemoteAddress());
+                log.debug("Remote Address: " + details.getRemoteAddress());
 
                 // to database
                 builder.sourceIp(details.getRemoteAddress());
             }
             LoginFailure failure = loginFailureRepository.save(builder.build());
             log.debug("Login failure saved to database, id: " + failure.getId());
+
+            if (failure.getUser() != null) {
+                lockUserAccount(failure.getUser());
+            }
+        }
+    }
+
+    private void lockUserAccount(User user) {
+        List<LoginFailure> failures = loginFailureRepository.findAllByUserAndCreatedDateIsAfter(
+                user,
+                Timestamp.valueOf(LocalDateTime.now().minusDays(1))
+                );
+
+        if (failures.size() > 3) {
+            log.debug("Locking user account!");
+            user.setAccountNonLocked(false);
+            userRepository.save(user);
         }
     }
 
     @EventListener
     public void listen(AuthenticationFailureDisabledEvent event) {
-        log.debug("########## Login failure/disabled ... " + event.toString());
+        log.debug("Login failure/disabled ... " + event.toString());
     }
 
 }
