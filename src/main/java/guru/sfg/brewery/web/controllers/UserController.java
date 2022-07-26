@@ -59,6 +59,29 @@ public class UserController {
         }
     }
 
+    @GetMapping("/verify2fa")
+    public String verify2fa() {
+        return "user/verify2fa";
+    }
+
+    @PostMapping
+    private String verifyPostOf2fa(@RequestParam Integer verifyCode) {
+
+        User user = getUser(); // From Spring security context
+
+        if (googleAuthenticator.authorizeUser(user.getUsername(), verifyCode)) {
+
+            // Properly entered code, so can flip the flag for 2FA
+            ((User) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).setGoogle2faRequired(false);
+
+            return "/index";
+        }
+        else {
+            // bad code, go back
+            return "user/verify2fa";
+        }
+    }
+
     private User getUser() {
         return (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
     }
