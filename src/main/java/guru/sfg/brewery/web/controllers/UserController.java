@@ -40,14 +40,27 @@ public class UserController {
         return "user/register2fa";
     }
 
-    private User getUser() {
-        return (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-    }
-
     @PostMapping
     private String confirm2fa(@RequestParam Integer verifyCode) {
-        // TODO: impl
-        return "index";
+
+        User user = getUser(); // From Spring security context
+
+        log.debug("Entered Code is: " + verifyCode);
+
+        if (googleAuthenticator.authorizeUser(user.getUsername(), verifyCode)) {
+            User savedUser = userRepository.findById(user.getId()).orElseThrow();
+            savedUser.setUseGoogle2fa(true);
+            userRepository.save(savedUser);
+            return "index";
+        }
+        else {
+            // bad code
+            return "user/register2fa";
+        }
+    }
+
+    private User getUser() {
+        return (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
     }
 
 }
