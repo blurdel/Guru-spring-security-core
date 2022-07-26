@@ -40,7 +40,7 @@ public class UserController {
         return "user/register2fa";
     }
 
-    @PostMapping
+    @PostMapping("/register2fa")
     private String confirm2fa(@RequestParam Integer verifyCode) {
 
         User user = getUser(); // From Spring security context
@@ -64,7 +64,7 @@ public class UserController {
         return "user/verify2fa";
     }
 
-    @PostMapping
+    @PostMapping("/verify2fa")
     private String verifyPostOf2fa(@RequestParam Integer verifyCode) {
 
         User user = getUser(); // From Spring security context
