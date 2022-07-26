@@ -89,7 +89,7 @@ public class User implements UserDetails, CredentialsContainer {
     private String google2faSecret;
 
     @Transient
-    private Boolean google2faRequired = true;
+    private Boolean google2faRequired = true; // once authenticated, flip it false
 
     @Override
     public void eraseCredentials() {
