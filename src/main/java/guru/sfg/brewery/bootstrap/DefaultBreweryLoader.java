@@ -69,10 +69,10 @@ public class DefaultBreweryLoader implements CommandLineRunner {
 
     @Override
     public void run(String... args) {
-        loadSecurityData();
-        loadBreweryData();
-        loadTastingRoomData();
-        loadCustomerData();
+//        loadSecurityData();
+//        loadBreweryData();
+//        loadTastingRoomData();
+//        loadCustomerData();
     }
 
     private void loadCustomerData() {
