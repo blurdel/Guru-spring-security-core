@@ -45,7 +45,7 @@ public class UserController {
 
         User user = getUser(); // From Spring security context
 
-        log.debug("Entered Code is: " + verifyCode);
+        log.debug("##### register2fa Entered Code is: " + verifyCode);
 
         if (googleAuthenticator.authorizeUser(user.getUsername(), verifyCode)) {
             User savedUser = userRepository.findById(user.getId()).orElseThrow();
@@ -68,6 +68,8 @@ public class UserController {
     private String verifyPostOf2fa(@RequestParam Integer verifyCode) {
 
         User user = getUser(); // From Spring security context
+
+        log.debug("##### verify2fa Entered Code is: " + verifyCode);
 
         if (googleAuthenticator.authorizeUser(user.getUsername(), verifyCode)) {
 
