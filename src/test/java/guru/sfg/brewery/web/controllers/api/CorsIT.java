@@ -25,7 +25,7 @@ public class CorsIT extends BaseIT {
                 .andExpect(header().string("Access-Control-Allow-Origin", "*"));
     }
 
-    // Note PREFLIGHT calls have perform(options()) call
+    // Note PREFLIGHT calls have perform(options()) call, Spring Security does not allow options() call
     @Test
     void findBeersPREFLIGHT() throws Exception {
         mockMvc.perform(options("/api/v1/beer/")
