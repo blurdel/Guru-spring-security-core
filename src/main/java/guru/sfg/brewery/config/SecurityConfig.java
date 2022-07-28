@@ -20,9 +20,9 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 
 @RequiredArgsConstructor
-@Configuration
-@EnableWebSecurity
-@EnableGlobalMethodSecurity(prePostEnabled = true)
+//@Configuration
+//@EnableWebSecurity
+//@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final UserDetailsService userDetailsService;
@@ -81,10 +81,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.headers().frameOptions().sameOrigin();
     }
 
-    @Bean
-    PasswordEncoder passwordEncoder(){
-        return PasswordEncoderFactories.createDelegatingPasswordEncoder();
-    }
+//    @Bean
+//    PasswordEncoder passwordEncoder(){
+//        return PasswordEncoderFactories.createDelegatingPasswordEncoder();
+//    }
 
     // TODO: Not needed since we created our service as spring components and will be detected
 //    @Autowired
