@@ -25,6 +25,7 @@ public class CorsIT extends BaseIT {
                 .andExpect(header().string("Access-Control-Allow-Origin", "*"));
     }
 
+    // Note PREFLIGHT calls have perform(options()) call
     @Test
     void findBeersPREFLIGHT() throws Exception {
         mockMvc.perform(options("/api/v1/beer/")
